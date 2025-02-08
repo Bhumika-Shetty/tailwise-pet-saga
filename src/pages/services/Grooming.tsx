@@ -2,7 +2,7 @@
 import { Sidebar } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Scissors, Bath, Cut, Calendar } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 const Grooming = () => {
   const navigate = useNavigate();
@@ -30,28 +30,24 @@ const Grooming = () => {
                 Pamper your pet with our expert grooming services
               </p>
               <Button size="lg">
-                <Calendar className="mr-2 h-5 w-5" />
-                Book Appointment
+                Schedule Appointment
               </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white rounded-xl p-6 shadow-sm">
-                <Bath className="w-8 h-8 mb-4 text-primary" />
                 <h2 className="text-xl font-semibold mb-2">Bath & Brush</h2>
                 <p className="text-gray-600">
                   Thorough cleaning and brushing for a fresh, clean pet
                 </p>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-sm">
-                <Cut className="w-8 h-8 mb-4 text-primary" />
                 <h2 className="text-xl font-semibold mb-2">Hair Trimming</h2>
                 <p className="text-gray-600">
                   Professional cuts tailored to your pet's breed
                 </p>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-sm">
-                <Scissors className="w-8 h-8 mb-4 text-primary" />
                 <h2 className="text-xl font-semibold mb-2">Nail Care</h2>
                 <p className="text-gray-600">
                   Gentle nail trimming and paw care services
