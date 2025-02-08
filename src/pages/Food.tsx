@@ -13,7 +13,7 @@ const Food = () => {
   const { toast } = useToast();
 
   const checkFood = () => {
-    // This is a mock function - in a real app, you'd call an API
+    // Mock food safety check
     const safeFood = [
       "carrots",
       "apples",
@@ -22,12 +22,39 @@ const Food = () => {
       "green beans",
       "pumpkin",
     ];
-    const isSafe = safeFood.includes(food.toLowerCase());
-    setResult(
-      isSafe
-        ? "✅ This food is safe for your pet!"
-        : "❌ This food might not be safe for your pet."
-    );
+    const dangerousFood = [
+      "chocolate",
+      "grapes",
+      "onions",
+      "garlic",
+      "avocado",
+      "macadamia nuts",
+    ];
+    
+    const foodLower = food.toLowerCase();
+    let isSafe = safeFood.includes(foodLower);
+    let isDangerous = dangerousFood.includes(foodLower);
+    
+    if (isDangerous) {
+      setResult("❌ This food is dangerous for your pet! Please avoid it.");
+      // Set specific alternatives based on dangerous food
+      const alternativeMap: { [key: string]: string[] } = {
+        chocolate: ["carob treats", "pet-safe chocolate alternatives", "banana treats"],
+        grapes: ["blueberries", "apple slices", "watermelon"],
+        onions: ["carrots", "sweet potatoes", "green beans"],
+        garlic: ["plain chicken", "fish", "turkey"],
+        avocado: ["pumpkin", "sweet potato", "banana"],
+        "macadamia nuts": ["regular dog treats", "carrots", "apple slices"],
+      };
+      setAlternatives(alternativeMap[foodLower] || ["carrots", "apples", "pumpkin"]);
+    } else if (isSafe) {
+      setResult("✅ This food is safe for your pet!");
+      setAlternatives([]);
+    } else {
+      setResult("❓ We recommend consulting with your vet about this food.");
+      setAlternatives(["carrots", "apples", "pumpkin", "green beans"]);
+    }
+    
     toast({
       title: "Food Check Complete",
       description: "We've analyzed the food safety for your pet.",
@@ -35,14 +62,6 @@ const Food = () => {
   };
 
   const showAlternativeFoods = () => {
-    // Mock alternatives - in a real app, these would come from an API
-    setAlternatives([
-      "Fresh carrots",
-      "Cooked chicken breast",
-      "Green beans",
-      "Pumpkin puree",
-      "Plain yogurt",
-    ]);
     setShowAlternatives(true);
   };
 
@@ -81,7 +100,9 @@ const Food = () => {
                     className={`p-4 rounded-lg ${
                       result.includes("✅")
                         ? "bg-primary/30"
-                        : "bg-destructive/20"
+                        : result.includes("❌")
+                        ? "bg-destructive/20"
+                        : "bg-secondary/30"
                     }`}
                   >
                     <p className="text-lg">{result}</p>
@@ -97,7 +118,7 @@ const Food = () => {
                   </div>
                 )}
 
-                {showAlternatives && (
+                {showAlternatives && alternatives.length > 0 && (
                   <div className="mt-6">
                     <h3 className="text-lg font-semibold mb-4">
                       Safe Alternatives

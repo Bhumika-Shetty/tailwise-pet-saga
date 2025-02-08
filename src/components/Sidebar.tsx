@@ -1,6 +1,6 @@
 
 import { cn } from "@/lib/utils";
-import { Home, Apple, Stethoscope, HeartPulse, ShoppingBag } from "lucide-react";
+import { Home, Apple, Stethoscope, HeartPulse, ShoppingBag, Briefcase, MessageSquare } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
@@ -8,7 +8,9 @@ const navItems = [
   { icon: Apple, label: "Ask about food", path: "/food" },
   { icon: Stethoscope, label: "Diagnose diseases", path: "/diagnose" },
   { icon: HeartPulse, label: "Monitor health", path: "/health" },
+  { icon: Briefcase, label: "Services", path: "/services" },
   { icon: ShoppingBag, label: "Shopping", path: "/shopping" },
+  { icon: MessageSquare, label: "Connect", path: "/connect" },
 ];
 
 export function Sidebar() {
