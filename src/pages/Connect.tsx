@@ -25,13 +25,39 @@ const Connect = () => {
       comments: 12,
     },
   ]);
+  const [newPostContent, setNewPostContent] = useState("");
+  const [newPostImage, setNewPostImage] = useState<string | null>(null);
   const { toast } = useToast();
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewPostImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handlePostSubmit = () => {
-    toast({
-      title: "Post Created",
-      description: "Your post has been shared with the community!",
-    });
+    if (newPostContent || newPostImage) {
+      const newPost = {
+        id: posts.length + 1,
+        author: "You",
+        content: newPostContent,
+        image: newPostImage || "",
+        likes: 0,
+        comments: 0,
+      };
+      setPosts([newPost, ...posts]);
+      setNewPostContent("");
+      setNewPostImage(null);
+      toast({
+        title: "Post Created",
+        description: "Your post has been shared with the community!",
+      });
+    }
   };
 
   return (
@@ -50,26 +76,62 @@ const Connect = () => {
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow-sm mb-8">
-              <div className="flex gap-4 mb-4">
+              <div className="space-y-4">
                 <Input
                   placeholder="Share something about your pet..."
+                  value={newPostContent}
+                  onChange={(e) => setNewPostContent(e.target.value)}
                   className="flex-1"
                 />
-                <Button className="gap-2">
-                  <Image className="w-4 h-4" />
-                  Add Photo
-                </Button>
+                
+                {newPostImage && (
+                  <div className="relative">
+                    <img
+                      src={newPostImage}
+                      alt="Upload preview"
+                      className="max-h-64 rounded-lg mx-auto"
+                    />
+                    <button
+                      onClick={() => setNewPostImage(null)}
+                      className="absolute top-2 right-2 bg-black/50 text-white p-1 rounded-full hover:bg-black/70"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+                
+                <div className="flex gap-4">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    id="post-image"
+                  />
+                  <label htmlFor="post-image">
+                    <Button variant="outline" className="gap-2" asChild>
+                      <span>
+                        <Image className="w-4 h-4" />
+                        Add Photo
+                      </span>
+                    </Button>
+                  </label>
+                  <Button 
+                    onClick={handlePostSubmit}
+                    disabled={!newPostContent && !newPostImage}
+                    className="flex-1"
+                  >
+                    Post Update
+                  </Button>
+                </div>
               </div>
-              <Button onClick={handlePostSubmit} className="w-full">
-                Post Update
-              </Button>
             </div>
 
             <div className="space-y-6">
               {posts.map((post) => (
                 <div
                   key={post.id}
-                  className="bg-white rounded-xl shadow-sm overflow-hidden"
+                  className="bg-white rounded-xl shadow-sm overflow-hidden animate-fade-up"
                 >
                   <img
                     src={post.image}

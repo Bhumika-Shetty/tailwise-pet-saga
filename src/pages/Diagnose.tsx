@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { Phone } from "lucide-react";
 
 const Diagnose = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -19,7 +20,6 @@ const Diagnose = () => {
   };
 
   const startDiagnosis = () => {
-    // Mock diagnosis - in a real app, this would use an AI model
     const mockDiagnoses = [
       "Your pet appears to be healthy!",
       "Minor skin irritation detected. Consider consulting a vet.",
@@ -31,6 +31,13 @@ const Diagnose = () => {
     toast({
       title: "Diagnosis Complete",
       description: "We've analyzed the image of your pet.",
+    });
+  };
+
+  const contactVet = () => {
+    toast({
+      title: "Connecting to Vet",
+      description: "Connecting you to the nearest available veterinarian...",
     });
   };
 
@@ -83,9 +90,20 @@ const Diagnose = () => {
                 </div>
 
                 {diagnosis && (
-                  <div className="bg-primary/30 p-4 rounded-lg mt-6">
-                    <h3 className="text-lg font-semibold mb-2">Diagnosis Result</h3>
-                    <p>{diagnosis}</p>
+                  <div className="space-y-4">
+                    <div className="bg-primary/30 p-4 rounded-lg">
+                      <h3 className="text-lg font-semibold mb-2">Diagnosis Result</h3>
+                      <p>{diagnosis}</p>
+                    </div>
+                    
+                    <Button 
+                      onClick={contactVet} 
+                      variant="secondary"
+                      className="w-full gap-2"
+                    >
+                      <Phone className="w-4 h-4" />
+                      Contact a Vet Now
+                    </Button>
                   </div>
                 )}
               </div>
