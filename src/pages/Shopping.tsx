@@ -13,12 +13,22 @@ const Shopping = () => {
         {
           name: "Interactive Ball",
           price: "$12.99",
-          image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97",
         },
         {
           name: "Plush Mouse",
           price: "$8.99",
-          image: "https://images.unsplash.com/photo-1545666955-0d0e9641cc80?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          image: "https://images.unsplash.com/photo-1545666955-0d0e9641cc80",
+        },
+        {
+          name: "Rope Toy",
+          price: "$15.99",
+          image: "https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd",
+        },
+        {
+          name: "Chew Bone",
+          price: "$9.99",
+          image: "https://images.unsplash.com/photo-1591946614720-90a587da4a36",
         },
       ],
     },
@@ -28,12 +38,22 @@ const Shopping = () => {
         {
           name: "Cozy Sweater",
           price: "$24.99",
-          image: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          image: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e",
         },
         {
           name: "Rain Jacket",
           price: "$29.99",
-          image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b",
+        },
+        {
+          name: "Winter Boots",
+          price: "$34.99",
+          image: "https://images.unsplash.com/photo-1583511655826-05700442982d",
+        },
+        {
+          name: "Summer Hat",
+          price: "$19.99",
+          image: "https://images.unsplash.com/photo-1583511666407-5f06533f2113",
         },
       ],
     },
@@ -43,12 +63,22 @@ const Shopping = () => {
         {
           name: "Premium Kibble",
           price: "$34.99",
-          image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119",
         },
         {
           name: "Gourmet Treats",
           price: "$15.99",
-          image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1",
+        },
+        {
+          name: "Dental Chews",
+          price: "$12.99",
+          image: "https://images.unsplash.com/photo-1601758174114-e5200b33d9b6",
+        },
+        {
+          name: "Wet Food Pack",
+          price: "$22.99",
+          image: "https://images.unsplash.com/photo-1601758123927-4f7acc7da589",
         },
       ],
     },

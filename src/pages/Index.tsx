@@ -1,8 +1,9 @@
-
 import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
-import { Plus, AlertTriangle } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Plus, AlertTriangle, Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const PetDetails = ({ pet }: { pet: any }) => {
@@ -55,7 +56,7 @@ const PetDetails = ({ pet }: { pet: any }) => {
 
 const Index = () => {
   const { toast } = useToast();
-  const [pets] = useState([
+  const [pets, setPets] = useState([
     {
       name: "Luna",
       age: "2 years",
@@ -79,6 +80,15 @@ const Index = () => {
       upcomingVaccination: { name: "Rabies Booster", date: "2024-12-15" }
     }
   ]);
+  const [newPet, setNewPet] = useState({
+    name: "",
+    age: "",
+    photo: "",
+    vaccinations: [],
+    happinessIndex: 90,
+  });
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   // Show vaccination reminder on component mount
   useState(() => {
@@ -93,10 +103,51 @@ const Index = () => {
     });
   });
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleAddPet = () => {
+    if (!newPet.name || !newPet.age || !previewUrl) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all fields and upload a photo.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newPetWithPhoto = {
+      ...newPet,
+      photo: previewUrl,
+      vaccinations: [],
+      happinessIndex: 90,
+    };
+
+    setPets([...pets, newPetWithPhoto]);
+    setNewPet({ name: "", age: "", photo: "", vaccinations: [], happinessIndex: 90 });
+    setPreviewUrl(null);
+    setSelectedImage(null);
+
     toast({
-      title: "Add New Pet",
-      description: "Feature coming soon! You'll be able to add your pets here.",
+      title: "Pet Added",
+      description: `${newPet.name} has been added to your pets.`,
+    });
+  };
+
+  const handleDeletePet = (petName: string) => {
+    setPets(pets.filter(pet => pet.name !== petName));
+    toast({
+      title: "Pet Removed",
+      description: `${petName} has been removed from your pets.`,
     });
   };
 
@@ -108,15 +159,70 @@ const Index = () => {
           <div className="max-w-4xl mx-auto">
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-4xl font-bold text-gray-800">My Pets</h1>
-              <Button onClick={handleAddPet} className="gap-2">
-                <Plus className="w-4 h-4" />
-                Add Pet
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="gap-2">
+                    <Plus className="w-4 h-4" />
+                    Add Pet
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Add New Pet</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <Input
+                      placeholder="Pet Name"
+                      value={newPet.name}
+                      onChange={(e) => setNewPet({ ...newPet, name: e.target.value })}
+                    />
+                    <Input
+                      placeholder="Pet Age (e.g., 2 years)"
+                      value={newPet.age}
+                      onChange={(e) => setNewPet({ ...newPet, age: e.target.value })}
+                    />
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="pet-photo"
+                        className="cursor-pointer block bg-secondary/30 hover:bg-secondary/40 transition-colors rounded-lg p-4 text-center"
+                      >
+                        {previewUrl ? (
+                          <img
+                            src={previewUrl}
+                            alt="Preview"
+                            className="max-h-40 mx-auto rounded-lg"
+                          />
+                        ) : (
+                          <span>Upload Pet Photo</span>
+                        )}
+                      </label>
+                      <input
+                        id="pet-photo"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="hidden"
+                      />
+                    </div>
+                    <Button onClick={handleAddPet}>Add Pet</Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
 
             <div className="space-y-6">
               {pets.map((pet) => (
-                <PetDetails key={pet.name} pet={pet} />
+                <div key={pet.name} className="relative">
+                  <PetDetails pet={pet} />
+                  <Button
+                    variant="destructive"
+                    size="icon"
+                    className="absolute top-4 right-4"
+                    onClick={() => handleDeletePet(pet.name)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
               ))}
             </div>
           </div>

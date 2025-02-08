@@ -3,9 +3,47 @@ import { Sidebar } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Heart, Search, CheckCircle, HandHeart } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 const Adoption = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [availablePets] = useState([
+    {
+      id: 1,
+      name: "Buddy",
+      type: "Dog",
+      breed: "Golden Retriever",
+      age: "2 years",
+      image: "https://images.unsplash.com/photo-1552053831-71594a27632d",
+    },
+    {
+      id: 2,
+      name: "Whiskers",
+      type: "Cat",
+      breed: "Persian",
+      age: "1 year",
+      image: "https://images.unsplash.com/photo-1574144611937-0df059b5ef3e",
+    },
+    {
+      id: 3,
+      name: "Max",
+      type: "Dog",
+      breed: "Labrador",
+      age: "6 months",
+      image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b",
+    },
+  ]);
+
+  const handleAdopt = (petName: string) => {
+    toast({
+      title: "Adoption Request Sent",
+      description: `Your request to adopt ${petName} has been received. We'll contact you soon!`,
+    });
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -29,34 +67,30 @@ const Adoption = () => {
               <p className="text-gray-600 text-lg mb-6">
                 Find your perfect companion and give them a forever home
               </p>
-              <Button size="lg">
-                <Search className="mr-2 h-5 w-5" />
-                Browse Available Pets
-              </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-xl p-6 shadow-sm">
-                <Heart className="w-8 h-8 mb-4 text-primary" />
-                <h2 className="text-xl font-semibold mb-2">Match Making</h2>
-                <p className="text-gray-600">
-                  Find the perfect pet for your lifestyle
-                </p>
-              </div>
-              <div className="bg-white rounded-xl p-6 shadow-sm">
-                <CheckCircle className="w-8 h-8 mb-4 text-primary" />
-                <h2 className="text-xl font-semibold mb-2">Health Checked</h2>
-                <p className="text-gray-600">
-                  All pets are vaccinated and health-screened
-                </p>
-              </div>
-              <div className="bg-white rounded-xl p-6 shadow-sm">
-                <HandHeart className="w-8 h-8 mb-4 text-primary" />
-                <h2 className="text-xl font-semibold mb-2">Support</h2>
-                <p className="text-gray-600">
-                  Ongoing assistance after adoption
-                </p>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {availablePets.map((pet) => (
+                <div key={pet.id} className="bg-white rounded-xl shadow-sm overflow-hidden">
+                  <img
+                    src={pet.image}
+                    alt={pet.name}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-4">
+                    <h3 className="text-xl font-semibold mb-2">{pet.name}</h3>
+                    <p className="text-gray-600 mb-1">{pet.breed}</p>
+                    <p className="text-gray-600 mb-4">{pet.age}</p>
+                    <Button
+                      onClick={() => handleAdopt(pet.name)}
+                      className="w-full"
+                    >
+                      <Heart className="mr-2 h-4 w-4" />
+                      Adopt {pet.name}
+                    </Button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

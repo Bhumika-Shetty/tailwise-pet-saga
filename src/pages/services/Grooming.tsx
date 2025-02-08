@@ -2,10 +2,34 @@
 import { Sidebar } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Scissors } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 const Grooming = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [service, setService] = useState("bath-brush");
+
+  const handleSchedule = () => {
+    if (!date || !time || !service) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all fields to schedule the appointment.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Appointment Scheduled",
+      description: `Your grooming appointment has been scheduled for ${date} at ${time}.`,
+    });
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -29,9 +53,41 @@ const Grooming = () => {
               <p className="text-gray-600 text-lg mb-6">
                 Pamper your pet with our expert grooming services
               </p>
-              <Button size="lg">
-                Schedule Appointment
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="lg">
+                    <Scissors className="mr-2 h-5 w-5" />
+                    Schedule Appointment
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Schedule Grooming Appointment</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <select
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
+                      value={service}
+                      onChange={(e) => setService(e.target.value)}
+                    >
+                      <option value="bath-brush">Bath & Brush</option>
+                      <option value="full-grooming">Full Grooming</option>
+                      <option value="nail-trim">Nail Trimming</option>
+                    </select>
+                    <Input
+                      type="date"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                    />
+                    <Input
+                      type="time"
+                      value={time}
+                      onChange={(e) => setTime(e.target.value)}
+                    />
+                    <Button onClick={handleSchedule}>Schedule</Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

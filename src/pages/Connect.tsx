@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Image, Heart, MessageSquare, Share2 } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { Image, Heart, MessageSquare, Share2, Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const Connect = () => {
@@ -27,6 +28,7 @@ const Connect = () => {
   ]);
   const [newPostContent, setNewPostContent] = useState("");
   const [newPostImage, setNewPostImage] = useState<string | null>(null);
+  const [imageSize, setImageSize] = useState(100);
   const { toast } = useToast();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +62,14 @@ const Connect = () => {
     }
   };
 
+  const handleDeletePost = (postId: number) => {
+    setPosts(posts.filter(post => post.id !== postId));
+    toast({
+      title: "Post Deleted",
+      description: "Your post has been removed.",
+    });
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
@@ -85,18 +95,31 @@ const Connect = () => {
                 />
                 
                 {newPostImage && (
-                  <div className="relative">
-                    <img
-                      src={newPostImage}
-                      alt="Upload preview"
-                      className="max-h-64 rounded-lg mx-auto"
-                    />
-                    <button
-                      onClick={() => setNewPostImage(null)}
-                      className="absolute top-2 right-2 bg-black/50 text-white p-1 rounded-full hover:bg-black/70"
-                    >
-                      ✕
-                    </button>
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <img
+                        src={newPostImage}
+                        alt="Upload preview"
+                        style={{ maxWidth: `${imageSize}%` }}
+                        className="rounded-lg mx-auto"
+                      />
+                      <button
+                        onClick={() => setNewPostImage(null)}
+                        className="absolute top-2 right-2 bg-black/50 text-white p-1 rounded-full hover:bg-black/70"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm text-gray-500">Image Size</label>
+                      <Slider
+                        defaultValue={[100]}
+                        max={100}
+                        min={20}
+                        step={10}
+                        onValueChange={([value]) => setImageSize(value)}
+                      />
+                    </div>
                   </div>
                 )}
                 
@@ -131,15 +154,28 @@ const Connect = () => {
               {posts.map((post) => (
                 <div
                   key={post.id}
-                  className="bg-white rounded-xl shadow-sm overflow-hidden animate-fade-up"
+                  className="bg-white rounded-xl shadow-sm overflow-hidden animate-fade-up relative"
                 >
-                  <img
-                    src={post.image}
-                    alt="Pet"
-                    className="w-full h-64 object-cover"
-                  />
+                  {post.image && (
+                    <img
+                      src={post.image}
+                      alt="Pet"
+                      className="w-full h-64 object-cover"
+                    />
+                  )}
                   <div className="p-6">
-                    <h3 className="font-semibold mb-2">{post.author}</h3>
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="font-semibold">{post.author}</h3>
+                      {post.author === "You" && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDeletePost(post.id)}
+                        >
+                          <Trash2 className="w-4 h-4 text-red-500" />
+                        </Button>
+                      )}
+                    </div>
                     <p className="text-gray-600 mb-4">{post.content}</p>
                     <div className="flex gap-6">
                       <Button variant="ghost" className="gap-2">
