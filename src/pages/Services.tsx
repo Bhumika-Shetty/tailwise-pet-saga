@@ -11,14 +11,14 @@ const Services = () => {
       icon: Ambulance,
       description: "24/7 emergency veterinary care for your pets",
       path: "/services/emergency",
-      color: "bg-[#FDE1D3]",
+      color: "bg-[#D3E4FD]",
     },
     {
       title: "Grooming Services",
       icon: Scissors,
       description: "Professional pet grooming and spa treatments",
       path: "/services/grooming",
-      color: "bg-[#F2FCE2]",
+      color: "bg-[#D3E4FD]",
     },
     {
       title: "Pet Sitting & Walking",
@@ -32,7 +32,7 @@ const Services = () => {
       icon: Heart,
       description: "Find your perfect furry companion",
       path: "/services/adoption",
-      color: "bg-[#E5DEFF]",
+      color: "bg-[#D3E4FD]",
     },
   ];
 

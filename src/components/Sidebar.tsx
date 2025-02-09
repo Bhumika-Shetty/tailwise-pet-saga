@@ -2,27 +2,34 @@
 import { cn } from "@/lib/utils";
 import { Home, Apple, Stethoscope, HeartPulse, ShoppingBag, Briefcase, MessageSquare } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const navItems = [
   { icon: Home, label: "Home", path: "/" },
-  { icon: Apple, label: "Ask about food", path: "/food" },
-  { icon: Stethoscope, label: "Diagnose diseases", path: "/diagnose" },
-  { icon: HeartPulse, label: "Monitor health", path: "/health" },
+  { icon: Apple, label: "Pawssible Bites", path: "/food" },
+  { icon: HeartPulse, label: "TailMetrics", path: "/health" },
+  { icon: MessageSquare, label: "SnoutFeed", path: "/connect" },
+  { icon: Stethoscope, label: "Diagnose", path: "/diagnose" },
   { icon: Briefcase, label: "Services", path: "/services" },
   { icon: ShoppingBag, label: "Shopping", path: "/shopping" },
-  { icon: MessageSquare, label: "Connect", path: "/connect" },
+  
 ];
 
 export function Sidebar() {
   const location = useLocation();
 
   return (
-    <aside className="min-h-screen w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200 fixed left-0 top-0">
+    <aside className="min-h-screen w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200 fixed left-0 top-0"
+    style={{ backgroundColor: '#fae1e3' }}
+    >
       <div className="flex flex-col h-full px-3 py-4">
-        <div className="mb-8 px-4">
-          <h1 className="text-2xl font-semibold text-gray-800">Tailwise</h1>
-          <p className="text-sm text-gray-500">Pet Care Companion</p>
-        </div>
+      <div className="mb-8 px-4 flex flex-col items-center text-center">
+  <div className="flex items-center space-x-2">
+    <h1 className="text-2xl font-bold text-gray-800">Tailwise</h1>
+    <img src="/dog.png" alt="Tailwise Logo" className="h-8 w-8" />
+  </div>
+  <p className="text-sm text-gray-500">Pet Care Companion</p>
+</div>
         <nav className="flex-1">
           <ul className="space-y-1">
             {navItems.map((item) => (

@@ -30,11 +30,11 @@ const Adoption = () => {
     },
     {
       id: 3,
-      name: "Max",
+      name: "Sultan",
       type: "Dog",
       breed: "Labrador",
-      age: "6 months",
-      image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b",
+      age: "4 years",
+      image: "/labrador.jpeg",
     },
   ]);
 

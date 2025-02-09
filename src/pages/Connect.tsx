@@ -11,17 +11,17 @@ const Connect = () => {
   const [posts, setPosts] = useState([
     {
       id: 1,
-      author: "Max's Mom",
-      content: "Max enjoying his weekend at the park! 🐕",
-      image: "https://images.unsplash.com/photo-1544568100-847a948585b9",
+      author: "Vanessa",
+      content: "Look at him going full sicko mode !!!",
+      image: "/dog-leaping-park.jpg",
       likes: 23,
       comments: 5,
     },
     {
       id: 2,
-      author: "Luna's Dad",
-      content: "Luna's first day at puppy school 🎓",
-      image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b",
+      author: "Jonathan",
+      content: "This is how bella greets me after work <3",
+      image: "man-with-dog.jpg",
       likes: 45,
       comments: 12,
     },
@@ -78,10 +78,10 @@ const Connect = () => {
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-gray-800 mb-2">
-                Pet Community
+              📸 Pet Community 💬
               </h1>
               <p className="text-gray-500">
-                Share moments with fellow pet lovers
+              Scroll through adorable pet moments. Share your own!
               </p>
             </div>
 

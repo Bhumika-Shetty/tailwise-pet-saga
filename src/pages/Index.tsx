@@ -25,12 +25,12 @@ const PetDetails = ({ pet }: { pet: any }) => {
 
         <div className="grid grid-cols-2 gap-6">
           <div className="bg-secondary/30 rounded-xl p-4 hover:bg-secondary/40 transition-colors">
-            <h3 className="text-sm font-medium text-gray-500 mb-1">Age</h3>
-            <p className="text-lg font-semibold text-gray-800">{pet.age}</p>
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Breed</h3>
+            <p className="text-lg font-semibold text-gray-800">{pet.breed}</p>
           </div>
           
-          <div className="bg-primary/30 rounded-xl p-4 hover:bg-primary/40 transition-colors">
-            <h3 className="text-sm font-medium text-gray-500 mb-1">Happiness</h3>
+          <div className="bg-secondary/30 rounded-xl p-4 hover:bg-secondary/40 transition-colors">
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Zoomies Index</h3>
             <p className="text-lg font-semibold text-gray-800">{pet.happinessIndex}%</p>
           </div>
         </div>
@@ -59,33 +59,36 @@ const Index = () => {
   const [pets, setPets] = useState([
     {
       name: "Luna",
-      age: "2 years",
+      age: "3 years",
+      breed: "Japanese Bobtail",
       photo: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
       vaccinations: [
         { name: "Rabies", date: "2023-08-15" },
         { name: "FVRCP", date: "2023-09-01" },
       ],
-      happinessIndex: 95,
+      happinessIndex: 79,
       upcomingVaccination: { name: "FVRCP Booster", date: "2024-09-01" }
     },
     {
       name: "Max",
-      age: "1 year",
-      photo: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      age: "10 months",
+      breed: "Beagle",
+      photo: "/beagle2.jpg",
       vaccinations: [
         { name: "Rabies", date: "2023-12-15" },
         { name: "DHPP", date: "2024-01-01" },
       ],
-      happinessIndex: 90,
+      happinessIndex: 87,
       upcomingVaccination: { name: "Rabies Booster", date: "2024-12-15" }
     }
   ]);
   const [newPet, setNewPet] = useState({
     name: "",
     age: "",
+    breed: "",
     photo: "",
     vaccinations: [],
-    happinessIndex: 90,
+    happinessIndex: 0,
   });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -116,7 +119,7 @@ const Index = () => {
   };
 
   const handleAddPet = () => {
-    if (!newPet.name || !newPet.age || !previewUrl) {
+    if (!newPet.name || !newPet.age || !newPet.breed || !previewUrl) {
       toast({
         title: "Missing Information",
         description: "Please fill in all fields and upload a photo.",
@@ -129,11 +132,11 @@ const Index = () => {
       ...newPet,
       photo: previewUrl,
       vaccinations: [],
-      happinessIndex: 90,
+      happinessIndex: 0,
     };
 
     setPets([...pets, newPetWithPhoto]);
-    setNewPet({ name: "", age: "", photo: "", vaccinations: [], happinessIndex: 90 });
+    setNewPet({ name: "", age: "", breed:"", photo: "", vaccinations: ["NA"], happinessIndex: 0 });
     setPreviewUrl(null);
     setSelectedImage(null);
 
@@ -158,7 +161,7 @@ const Index = () => {
         <div className="p-8">
           <div className="max-w-4xl mx-auto">
             <div className="flex justify-between items-center mb-8">
-              <h1 className="text-4xl font-bold text-gray-800">My Pets</h1>
+              <h1 className="text-4xl font-bold text-gray-800">🐱 My Pets 🐶</h1>
               <Dialog>
                 <DialogTrigger asChild>
                   <Button className="gap-2">
@@ -180,6 +183,11 @@ const Index = () => {
                       placeholder="Pet Age (e.g., 2 years)"
                       value={newPet.age}
                       onChange={(e) => setNewPet({ ...newPet, age: e.target.value })}
+                    />
+                    <Input
+                      placeholder="Pet Breed"
+                      value={newPet.breed}
+                      onChange={(e) => setNewPet({ ...newPet, breed: e.target.value })}
                     />
                     <div className="space-y-2">
                       <label
